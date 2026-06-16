@@ -31,6 +31,9 @@ const ConversationSchema = new Schema(
   { timestamps: true }
 );
 
+ConversationSchema.index({ lastMessageAt: -1 });
+ConversationSchema.index({ status: 1, lastMessageAt: -1 });
+
 export type ConversationDoc = InferSchemaType<typeof ConversationSchema> & {
   _id: mongoose.Types.ObjectId;
 };

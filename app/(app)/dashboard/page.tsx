@@ -13,21 +13,28 @@ export default async function DashboardPage() {
   await dbConnect();
   const settings = await getSettings();
 
-  const [totalChats, tagged, pending, suggestions, recentAudit] = await Promise.all([
+  const [totalChats, tagged, pending, confidenceRows, riskRows, totalSuggestions, recentAudit] = await Promise.all([
     Conversation.countDocuments({}),
     TagSuggestion.countDocuments({ status: "approved" }),
     TagSuggestion.countDocuments({ status: { $in: ["refused", "suggested"] } }),
-    TagSuggestion.find({}).lean(),
+    TagSuggestion.aggregate([{ $group: { _id: "$confidence_level", count: { $sum: 1 } } }]),
+    TagSuggestion.aggregate([
+      { $match: { risk_flag: { $ne: "none" } } },
+      { $group: { _id: "$risk_flag", count: { $sum: 1 } } },
+    ]),
+    TagSuggestion.countDocuments({}),
     AuditLog.find({}).sort({ createdAt: -1 }).limit(8).lean(),
   ]);
 
   const dist = { high: 0, medium: 0, low: 0 };
   const riskCounts: Record<string, number> = {};
-  for (const s of suggestions as unknown as { confidence_level: "high" | "medium" | "low"; risk_flag: string }[]) {
-    dist[s.confidence_level]++;
-    if (s.risk_flag !== "none") riskCounts[s.risk_flag] = (riskCounts[s.risk_flag] || 0) + 1;
+  for (const row of confidenceRows as { _id: "high" | "medium" | "low"; count: number }[]) {
+    if (row._id in dist) dist[row._id] = row.count;
   }
-  const totalSug = suggestions.length || 1;
+  for (const row of riskRows as { _id: string; count: number }[]) {
+    riskCounts[row._id] = row.count;
+  }
+  const totalSug = totalSuggestions || 1;
   const audit = plain(recentAudit) as { _id: string; action: string; actor: string; chatId: string; detail: string; createdAt: string }[];
 
   return (
@@ -44,7 +51,7 @@ export default async function DashboardPage() {
         <Stat label="บทสนทนาทั้งหมด" value={totalChats} hint="จาก LINE OA (mock)" />
         <Stat label="ติดแท็กแล้ว (approved)" value={tagged} />
         <Stat label="รอรีวิว" value={pending} hint="refused + suggested" />
-        <Stat label="suggestion ทั้งหมด" value={suggestions.length} />
+        <Stat label="suggestion ทั้งหมด" value={totalSuggestions} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

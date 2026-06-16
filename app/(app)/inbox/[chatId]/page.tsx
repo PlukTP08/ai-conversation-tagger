@@ -17,7 +17,13 @@ export default async function ConversationPage({
   const { chatId } = await params;
   await dbConnect();
 
-  const convo = plain(await Conversation.findOne({ chatId }).lean()) as {
+  // query ขนานกัน (เดิมรอทีละ query)
+  const [convoRaw, sugRaw] = await Promise.all([
+    Conversation.findOne({ chatId }).lean(),
+    TagSuggestion.findOne({ chatId }).sort({ createdAt: -1 }).lean(),
+  ]);
+
+  const convo = plain(convoRaw) as {
     chatId: string;
     displayName: string;
     project_name: string;
@@ -26,9 +32,7 @@ export default async function ConversationPage({
   } | null;
   if (!convo) notFound();
 
-  const sug = plain(
-    await TagSuggestion.findOne({ chatId }).sort({ createdAt: -1 }).lean()
-  ) as SuggestionView | null;
+  const sug = plain(sugRaw) as SuggestionView | null;
 
   return (
     <div className="space-y-4">

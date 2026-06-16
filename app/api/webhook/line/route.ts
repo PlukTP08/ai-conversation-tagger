@@ -53,18 +53,24 @@ export async function POST(req: Request) {
     const raw = ev.message.text;
     const ts = ev.timestamp ? new Date(ev.timestamp) : new Date();
 
-    const displayName = (await fetchLineDisplayName(userId)) || chatId;
+    // LINE ไม่ส่งชื่อมา → ดึงเองผ่าน Profile API (ถ้ามี access token)
+    const fetched = await fetchLineDisplayName(userId);
+    const setOnInsert: Record<string, unknown> = {
+      chatId,
+      lineUserId: maskPII(userId),
+      status: "open",
+      accessLevel: "internal",
+    };
+    const set: Record<string, unknown> = { lastMessageAt: ts };
+    // ได้ชื่อจริง → อัปเดตทุกครั้ง (แชตเดิมก็ได้ชื่อด้วย); ดึงไม่ได้ → ตั้ง fallback เฉพาะตอนสร้าง
+    // (หลีกเลี่ยงตั้ง displayName ทั้งใน $set และ $setOnInsert พร้อมกัน — Mongo จะ error)
+    if (fetched) set.displayName = fetched;
+    else setOnInsert.displayName = chatId;
 
     await Conversation.updateOne(
       { chatId },
       {
-        $setOnInsert: {
-          chatId,
-          lineUserId: maskPII(userId),
-          displayName,
-          status: "open",
-          accessLevel: "internal",
-        },
+        $setOnInsert: setOnInsert,
         $push: {
           messages: {
             sender: "customer",
@@ -73,7 +79,7 @@ export async function POST(req: Request) {
             timestamp: ts,
           },
         },
-        $set: { lastMessageAt: ts },
+        $set: set,
       },
       { upsert: true }
     );

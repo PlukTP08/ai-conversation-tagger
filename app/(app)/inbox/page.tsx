@@ -18,12 +18,22 @@ type Convo = {
 
 export default async function InboxPage() {
   await dbConnect();
-  const convos = plain(
-    await Conversation.find({}).sort({ lastMessageAt: -1 }).lean()
-  ) as Convo[];
+  // query ขนานกัน + ดึงเฉพาะข้อความล่าสุด ($slice -1) และฟิลด์ที่ใช้ → ลด payload/latency
+  const [convosRaw, sugs] = await Promise.all([
+    Conversation.find(
+      {},
+      { chatId: 1, displayName: 1, project_name: 1, status: 1, lastMessageAt: 1, messages: { $slice: -1 } }
+    )
+      .sort({ lastMessageAt: -1 })
+      .limit(100)
+      .lean(),
+    TagSuggestion.find({}, { chatId: 1, tags: 1, finalTags: 1, status: 1 })
+      .sort({ createdAt: -1 })
+      .lean(),
+  ]);
+  const convos = plain(convosRaw) as Convo[];
 
   const latestByChat = new Map<string, { tags: string[]; status: string }>();
-  const sugs = await TagSuggestion.find({}).sort({ createdAt: -1 }).lean();
   for (const s of sugs as unknown as { chatId: string; tags: string[]; finalTags: string[]; status: string }[]) {
     if (!latestByChat.has(s.chatId)) {
       latestByChat.set(s.chatId, {

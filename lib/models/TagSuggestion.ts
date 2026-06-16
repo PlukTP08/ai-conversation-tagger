@@ -34,6 +34,10 @@ const TagSuggestionSchema = new Schema(
   { timestamps: true }
 );
 
+TagSuggestionSchema.index({ createdAt: -1 });
+TagSuggestionSchema.index({ chatId: 1, createdAt: -1 });
+TagSuggestionSchema.index({ status: 1, sampledForReview: 1, createdAt: -1 });
+
 export type TagSuggestionDoc = InferSchemaType<typeof TagSuggestionSchema> & {
   _id: mongoose.Types.ObjectId;
 };

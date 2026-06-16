@@ -71,6 +71,15 @@ signature = Base64( HMAC-SHA256( channelSecret, rawRequestBody ) )
 
 > event อื่น (image, sticker, follow, postback ฯลฯ) ระบบจะ **ข้าม** ไม่ error
 
+### ชื่อลูกค้า (displayName) — ไม่ต้องส่งมา
+
+LINE **ไม่ส่ง** `displayName` มาใน webhook (payload มีแค่ `source.userId`).
+ระบบจะ **ดึงชื่อเอง** ผ่าน LINE Profile API: `GET https://api.line.me/v2/bot/profile/{userId}`
+โดยใช้ **Channel Access Token** → จึงแค่ส่ง token มาให้พอ (ดูข้อ 5)
+
+- มี access token → ได้ชื่อจริงของลูกค้า
+- ไม่มี / ดึงไม่ได้ (ลูกค้าบล็อก ฯลฯ) → ระบบ fallback เป็น `chatId` (เช่น `LINEUser-cdef`) ให้อัตโนมัติ ไม่ error
+
 ---
 
 ## 4. ระบบทำอะไรกับข้อมูล
