@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* =======================================================================
+   smileCULTURE Design System tokens (จาก smileCulture - Admin.fig)
+   cream surface · warm brown ink · single orange accent · brown-tinted shadow
+   ======================================================================= */
+@theme {
+  /* brand orange (Smile) */
+  --color-brand-50: rgb(255, 245, 232);
+  --color-brand-100: rgb(254, 235, 209);
+  --color-brand-200: rgb(253, 221, 179);
+  --color-brand-300: rgb(252, 200, 140);
+  --color-brand-400: rgb(251, 178, 90);
+  --color-brand-500: rgb(251, 157, 24); /* PRIMARY */
+  --color-brand-600: rgb(214, 124, 0); /* hover / orange-700 */
+  --color-brand-700: rgb(170, 98, 0);
+
+  /* warm brown ink + cream neutrals (ไม่ใช่เทาเย็น) */
+  --color-ink-900: rgb(51, 44, 39); /* headings */
+  --color-ink-700: rgb(94, 88, 78); /* DEFAULT text */
+  --color-ink-500: rgb(163, 159, 154); /* secondary / helper */
+  --color-ink-300: rgb(199, 196, 192); /* input border / disabled */
+  --color-ink-100: rgb(237, 236, 234); /* divider / chip / hover bg */
+
+  --color-surface: rgb(255, 255, 255); /* card / sheet */
+  --color-canvas: rgb(246, 245, 245); /* app background (cream) */
+
+  /* 8 culture colors (chart / tag series) */
+  --color-cult-smile: rgb(251, 157, 24);
+  --color-cult-positive: rgb(240, 204, 77);
+  --color-cult-young: rgb(105, 202, 216);
+  --color-cult-speed: rgb(221, 79, 79);
+  --color-cult-value: rgb(86, 123, 243);
+  --color-cult-ownership: rgb(170, 120, 244);
+  --color-cult-chance: rgb(183, 211, 71);
+  --color-cult-wow: rgb(243, 148, 222);
+
+  /* radii — 4 / 8 / 16 / pill */
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* brown-tinted elevation (signature) — override default tailwind shadows */
+  --shadow-sm: 0 0 2px 0 rgba(50, 31, 5, 0.05), 0 2px 8px 0 rgba(50, 31, 5, 0.1);
+  --shadow-md: 0 0 2px 0 rgba(50, 31, 5, 0.05), 0 4px 16px 0 rgba(50, 31, 5, 0.12);
+  --shadow-lg: 0 0 2px 0 rgba(50, 31, 5, 0.05), 0 12px 32px 0 rgba(50, 31, 5, 0.15);
+
+  /* fonts — IBM Plex Sans Thai (UI) + Roboto (numerics/display) */
+  --font-sans: "IBM Plex Sans Thai", "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "Roboto", "IBM Plex Sans Thai", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink-700);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* page title — Roboto Medium 36, brown */
+.page-title {
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-900);
+}
+
+/* big stat numerics — Roboto Bold */
+.stat-num {
+  font-family: var(--font-num);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--color-ink-900);
+}
+
+::selection {
+  background: var(--color-brand-100);
+  color: var(--color-ink-900);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-300);
+  border-radius: 9999px;
+}
