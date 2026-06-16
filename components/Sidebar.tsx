@@ -68,12 +68,12 @@ function Icon({ name, size = 18 }: { name: string; size?: number }) {
 }
 
 const NAV = [
-  { href: "/dashboard", label: "แดชบอร์ด", icon: "dashboard", section: "หลัก" },
-  { href: "/inbox", label: "กล่องแชต", icon: "inbox", section: "หลัก" },
-  { href: "/review", label: "คิวรีวิว", icon: "review", section: "หลัก" },
-  { href: "/rulebook", label: "Rulebook", icon: "rulebook", section: "ความรู้" },
-  { href: "/audit", label: "Audit Log", icon: "audit", section: "ความรู้" },
-  { href: "/settings", label: "ตั้งค่า", icon: "settings", section: "ระบบ" },
+  { href: "/dashboard", label: "Dashboard", icon: "dashboard", section: "MAIN" },
+  { href: "/inbox", label: "Live Chat", icon: "inbox", section: "MAIN" },
+  { href: "/review", label: "Review Queue", icon: "review", section: "MAIN" },
+  { href: "/rulebook", label: "Tagging Rulebook", icon: "rulebook", section: "KNOWLEDGE BASE" },
+  { href: "/audit", label: "Audit Logs", icon: "audit", section: "KNOWLEDGE BASE" },
+  { href: "/settings", label: "AI & Retrieval Settings", icon: "settings", section: "SYSTEM CONFIG" },
 ];
 
 export function Sidebar({
@@ -92,8 +92,8 @@ export function Sidebar({
       <div className="mb-2 flex items-center gap-2.5 border-b border-ink-100 px-1.5 pb-4">
         <Image src="/brand/logo-tag-line.svg" alt="" width={32} height={32} />
         <span className="font-num text-[17px] tracking-tight text-ink-700">
-          <span className="font-normal">Taging </span>
-          <span className="font-bold">Line</span>
+          <span className="font-normal">smile</span>
+          <span className="font-bold">TAGGING</span>
         </span>
       </div>
 

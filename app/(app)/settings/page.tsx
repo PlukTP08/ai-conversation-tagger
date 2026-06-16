@@ -2,7 +2,7 @@ import { getSettings } from "@/lib/models/Settings";
 import { dbConnect } from "@/lib/db";
 import { Card } from "@/components/ui";
 import { SettingsForm } from "./SettingsForm";
-import { hasGemini } from "@/lib/env";
+import { hasGemini, hasLineSecret } from "@/lib/env";
 import { plain } from "@/lib/serialize";
 
 export const dynamic = "force-dynamic";
@@ -20,14 +20,12 @@ export default async function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="page-title text-[30px]">ตั้งค่าระบบ</h1>
-        <p className="text-sm text-ink-500">
-          พารามิเตอร์การ retrieve และ fail-safe (WS4 Next action)
-        </p>
+        <p className="text-sm text-ink-500">จัดการและตั้งค่าเกณฑ์การวิเคราะห์ของระบบ AI</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-4 font-semibold text-ink-900">Retrieval & Fail-safe</h2>
+          <h2 className="mb-4 font-semibold text-ink-900">เกณฑ์การวิเคราะห์ & Fail-safe</h2>
           <SettingsForm initial={settings} />
         </Card>
 
@@ -45,7 +43,7 @@ export default async function SettingsPage() {
               </li>
               <li className="flex items-center justify-between">
                 <span className="text-ink-700">LINE Messaging API</span>
-                <StatusDot ok={false} okLabel="เชื่อมต่อแล้ว" offLabel="mock data" />
+                <StatusDot ok={hasLineSecret()} okLabel="เชื่อมต่อแล้ว" offLabel="โหมดข้อมูลจำลอง" />
               </li>
             </ul>
             <p className="mt-3 text-xs text-ink-500">
@@ -55,7 +53,8 @@ export default async function SettingsPage() {
           </Card>
 
           <Card>
-            <h2 className="mb-3 font-semibold text-ink-900">Metadata Dictionary (WS4)</h2>
+            <h2 className="mb-1 font-semibold text-ink-900">Metadata Dictionary</h2>
+            <p className="mb-3 text-xs text-ink-500">คุณสมบัติ (properties) ของ Rulebook ที่ระบบบังคับจัดเก็บ</p>
             <div className="flex flex-wrap gap-1.5">
               {settings.metadataFields.map((f) => (
                 <code key={f} className="rounded bg-ink-100 px-2 py-1 text-xs text-ink-700">

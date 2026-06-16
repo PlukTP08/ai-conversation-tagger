@@ -26,7 +26,7 @@ export default function LoginPage() {
             <Image src="/brand/logo-tag-line.svg" alt="" width={48} height={48} />
             <span className="font-num text-[22px] text-ink-700">
               <span className="font-normal">smile</span>
-              <span className="font-bold">Culture</span>
+              <span className="font-bold">TAGGING</span>
             </span>
           </div>
 
