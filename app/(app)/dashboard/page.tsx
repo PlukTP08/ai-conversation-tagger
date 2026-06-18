@@ -70,7 +70,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <PageTitle th="แดชบอร์ด" en="Dashboard" />
+        <PageTitle en="Dashboard" />
         <p className="text-sm text-ink-500">
           Real-time AI tagging overview and system audit logs · refusal threshold ={" "}
           {settings.confidenceThreshold} · review sample = {(settings.reviewSampleRate * 100).toFixed(0)}%

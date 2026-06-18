@@ -36,7 +36,7 @@ export default async function ReviewPage() {
   return (
     <div className="space-y-6">
       <div>
-        <PageTitle th="คิวรีวิว" en="Review Queue" />
+        <PageTitle en="Review Queue" />
         <p className="text-sm text-ink-500">
           เคสที่ confidence &lt; {settings.confidenceThreshold} (refused) หรือถูกสุ่มตรวจ{" "}
           {(settings.reviewSampleRate * 100).toFixed(0)}% — ต้องให้คนยืนยัน

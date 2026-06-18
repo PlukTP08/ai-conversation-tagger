@@ -24,7 +24,7 @@ export default async function AuditPage() {
   return (
     <div className="space-y-6">
       <div>
-        <PageTitle th="บันทึกการตรวจสอบ" en="Audit Logs" />
+        <PageTitle en="Audit Logs" />
         <p className="text-sm text-ink-500">
           ประวัติการติดแท็ก/รีวิวทั้งหมด (WS4 Review Approval Dashboard Log)
         </p>

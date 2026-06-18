@@ -46,7 +46,7 @@ export default async function InboxPage() {
   return (
     <div className="space-y-6">
       <div>
-        <PageTitle th="แชตสด" en="Live Chat" />
+        <PageTitle en="Live Chat" />
         <p className="text-sm text-ink-500">บทสนทนาจาก LINE OA</p>
       </div>
 

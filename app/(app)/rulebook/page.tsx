@@ -33,7 +33,7 @@ export default async function RulebookPage() {
   return (
     <div className="space-y-6">
       <div>
-        <PageTitle th="คู่มือการติดแท็ก" en="Tagging Rulebook" />
+        <PageTitle en="Tagging Rulebook" />
         <p className="text-sm text-ink-500">
           เอกสารอ้างอิงสำหรับ RAG · เวอร์ชันเก่าถูก mark superseded → retrieve ดึงเฉพาะเล่มล่าสุด (WS2)
         </p>
