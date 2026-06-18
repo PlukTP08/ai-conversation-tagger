@@ -16,7 +16,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen bg-canvas">
       <Sidebar pendingCount={pendingCount} user={{ name: session.name, role: session.role }} />
-      <main className="min-w-0 flex-1 overflow-auto py-6 pr-6 pl-2">{children}</main>
+      <main className="min-w-0 flex-1 overflow-auto">
+        <div className="mx-auto max-w-[1200px] px-5 py-8 sm:px-8 lg:px-10">{children}</div>
+      </main>
     </div>
   );
 }
