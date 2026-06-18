@@ -44,17 +44,20 @@ export default async function InboxPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
+    <div className="space-y-8">
+      <div className="space-y-1.5">
         <PageTitle en="Live Chat" />
         <p className="text-sm text-ink-500">บทสนทนาจาก LINE OA</p>
       </div>
 
       {convos.length === 0 ? (
-        <EmptyState>ยังไม่มีบทสนทนา — รัน <code>npm run seed</code> เพื่อใส่ข้อมูลตัวอย่าง</EmptyState>
+        <EmptyState title="ยังไม่มีบทสนทนา">
+          รัน <code className="rounded bg-ink-100 px-1.5 py-0.5 text-xs text-ink-700">npm run seed</code>{" "}
+          เพื่อใส่ข้อมูลตัวอย่าง
+        </EmptyState>
       ) : (
         <Card className="p-0">
-          <ul className="divide-y divide-ink-100">
+          <ul className="divide-y divide-ink-200">
             {convos.map((c) => {
               const tagInfo = latestByChat.get(c.chatId);
               const last = c.messages[c.messages.length - 1];
@@ -62,9 +65,9 @@ export default async function InboxPage() {
                 <li key={c.chatId}>
                   <Link
                     href={`/inbox/${c.chatId}`}
-                    className="flex items-center gap-4 px-5 py-4 transition hover:bg-ink-100/50"
+                    className="flex items-center gap-4 px-5 py-4 transition duration-150 hover:bg-ink-100"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-700">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 font-semibold text-brand-700 ring-1 ring-brand-100">
                       {c.displayName.charAt(0)}
                     </div>
                     <div className="min-w-0 flex-1">

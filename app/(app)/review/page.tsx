@@ -34,8 +34,8 @@ export default async function ReviewPage() {
   }));
 
   return (
-    <div className="space-y-6">
-      <div>
+    <div className="space-y-8">
+      <div className="space-y-1.5">
         <PageTitle en="Review Queue" />
         <p className="text-sm text-ink-500">
           เคสที่ confidence &lt; {settings.confidenceThreshold} (refused) หรือถูกสุ่มตรวจ{" "}
@@ -44,7 +44,9 @@ export default async function ReviewPage() {
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState>🎉 ไม่มีรายการรอรีวิว</EmptyState>
+        <EmptyState title="ไม่มีรายการรอรีวิว">
+          เคสทั้งหมดได้รับการยืนยันแล้ว — ไม่มีงานค้างในคิวรีวิวตอนนี้
+        </EmptyState>
       ) : (
         <div className="grid gap-3">
           {rows.map((r) => (

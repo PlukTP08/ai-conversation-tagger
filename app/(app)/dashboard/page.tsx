@@ -3,7 +3,7 @@ import { Conversation } from "@/lib/models/Conversation";
 import { TagSuggestion } from "@/lib/models/TagSuggestion";
 import { AuditLog } from "@/lib/models/AuditLog";
 import { getSettings } from "@/lib/models/Settings";
-import { Card, Stat, ConfidenceBadge, StatusBadge, PageTitle, Tag } from "@/components/ui";
+import { Card, Stat, ConfidenceBadge, StatusBadge, PageTitle, Tag, Icon } from "@/components/ui";
 import { plain } from "@/lib/serialize";
 import Link from "next/link";
 
@@ -68,8 +68,8 @@ export default async function DashboardPage() {
   const audit = plain(recentAudit) as { _id: string; action: string; actor: string; chatId: string; detail: string; createdAt: string }[];
 
   return (
-    <div className="space-y-6">
-      <div>
+    <div className="space-y-8">
+      <div className="space-y-1.5">
         <PageTitle en="Dashboard" />
         <p className="text-sm text-ink-500">
           Real-time AI tagging overview and system audit logs · refusal threshold ={" "}
@@ -123,15 +123,21 @@ export default async function DashboardPage() {
             ))}
           </div>
 
-          <h3 className="mb-2 mt-6 text-sm font-semibold text-ink-700">Risk flags</h3>
+          <h3 className="mb-2 mt-6 text-sm font-semibold text-ink-900">Risk flags</h3>
           {Object.keys(riskCounts).length === 0 ? (
             <p className="text-sm text-ink-500">ไม่มี risk flag</p>
           ) : (
-            <ul className="space-y-1 text-sm text-ink-700">
+            <ul className="space-y-1.5 text-sm text-ink-700">
               {Object.entries(riskCounts).map(([k, v]) => (
-                <li key={k} className="flex justify-between">
-                  <span>⚠ {k}</span>
-                  <span className="font-semibold">{v}</span>
+                <li
+                  key={k}
+                  className="flex items-center justify-between rounded-lg bg-ink-100 px-3 py-2"
+                >
+                  <span className="flex items-center gap-2 text-amber-700">
+                    <Icon name="alert" size={14} />
+                    <span className="text-ink-700">{k}</span>
+                  </span>
+                  <span className="font-semibold text-ink-900">{v}</span>
                 </li>
               ))}
             </ul>
@@ -143,8 +149,12 @@ export default async function DashboardPage() {
             <h2 className="font-semibold text-ink-900">
               กิจกรรมล่าสุด <span className="font-normal text-ink-500">Recent Activity</span>
             </h2>
-            <Link href="/audit" className="text-xs text-brand-600 hover:underline">
-              ดูทั้งหมด →
+            <Link
+              href="/audit"
+              className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 transition hover:text-brand-700"
+            >
+              ดูทั้งหมด
+              <Icon name="arrowRight" size={13} />
             </Link>
           </div>
           <ul className="space-y-3">

@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import { reviewTagAction } from "@/app/(app)/actions";
-import { ConfidenceBadge, RiskBadge, Tag, StatusBadge } from "@/components/ui";
+import { ConfidenceBadge, RiskBadge, Tag, StatusBadge, Button, Icon } from "@/components/ui";
 import { RISK_FLAG_LABELS, type RiskFlag } from "@/lib/constants";
 
 export type ReviewRow = {
@@ -28,18 +28,18 @@ export function ReviewItem({ row }: { row: ReviewRow }) {
   }
 
   return (
-    <div className="rounded-xl bg-surface p-4 shadow-sm ring-1 ring-ink-100">
+    <div className="rounded-2xl border border-ink-200 bg-surface p-4 shadow-sm transition duration-150 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <Link
             href={`/inbox/${row.chatId}`}
-            className="font-medium text-ink-900 hover:text-brand-600"
+            className="font-semibold text-ink-900 transition hover:text-brand-600"
           >
             {row.displayName}
           </Link>
-          <span className="ml-2 text-xs text-ink-500">{row.chatId}</span>
-          <p className="mt-1 text-sm text-ink-700">{row.answer_summary}</p>
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="ml-2 text-xs text-ink-400">{row.chatId}</span>
+          <p className="mt-1.5 text-sm leading-relaxed text-ink-700">{row.answer_summary}</p>
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
             {row.tags.map((t) => (
               <Tag key={t}>{t}</Tag>
             ))}
@@ -54,23 +54,16 @@ export function ReviewItem({ row }: { row: ReviewRow }) {
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between border-t border-ink-100 pt-3">
+      <div className="mt-3.5 flex items-center justify-between border-t border-ink-200 pt-3.5">
         <StatusBadge status={row.status} />
         <div className="flex gap-2">
-          <button
-            onClick={() => review("approve")}
-            disabled={pending}
-            className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
-          >
-            ✅ ยืนยัน
-          </button>
-          <button
-            onClick={() => review("reject")}
-            disabled={pending}
-            className="rounded-lg bg-surface px-3 py-1.5 text-xs font-semibold text-ink-700 ring-1 ring-ink-300 transition hover:bg-ink-100 disabled:opacity-50"
-          >
+          <Button size="sm" variant="success" onClick={() => review("approve")} loading={pending}>
+            <Icon name="check" size={14} />
+            ยืนยัน
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => review("reject")} disabled={pending}>
             ปฏิเสธ
-          </button>
+          </Button>
         </div>
       </div>
     </div>

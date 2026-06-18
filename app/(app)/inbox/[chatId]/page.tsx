@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { dbConnect } from "@/lib/db";
 import { Conversation } from "@/lib/models/Conversation";
 import { TagSuggestion } from "@/lib/models/TagSuggestion";
-import { Card } from "@/components/ui";
+import { Card, Icon } from "@/components/ui";
 import { TagPanel, type SuggestionView } from "@/components/TagPanel";
 import { plain } from "@/lib/serialize";
 
@@ -35,9 +35,15 @@ export default async function ConversationPage({
   const sug = plain(sugRaw) as SuggestionView | null;
 
   return (
-    <div className="space-y-4">
-      <Link href="/inbox" className="text-sm text-brand-600 hover:underline">
-        ← กลับกล่องแชต
+    <div className="space-y-5">
+      <Link
+        href="/inbox"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition hover:text-ink-900"
+      >
+        <span className="rotate-180">
+          <Icon name="arrowRight" size={15} />
+        </span>
+        กลับกล่องแชต
       </Link>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
@@ -73,7 +79,7 @@ export default async function ConversationPage({
                   {m.maskedText}
                   <div
                     className={`mt-0.5 text-[10px] ${
-                      m.sender === "agent" ? "text-brand-100" : "text-ink-500"
+                      m.sender === "agent" ? "text-white/70" : "text-ink-400"
                     }`}
                   >
                     {new Date(m.timestamp).toLocaleString("th-TH", {
@@ -85,15 +91,21 @@ export default async function ConversationPage({
               </div>
             ))}
           </div>
-          <p className="mt-4 text-center text-[11px] text-ink-500">
-            🔒 ข้อความถูก mask PII แล้ว (อีเมล/เบอร์/เลขบัตร) ก่อนแสดงและส่งเข้าโมเดล
+          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[11px] text-ink-400">
+            <Icon name="lock" size={12} />
+            ข้อความถูก mask PII แล้ว (อีเมล/เบอร์/เลขบัตร) ก่อนแสดงและส่งเข้าโมเดล
           </p>
         </Card>
 
         {/* AI tag panel */}
         <div>
           <Card>
-            <h2 className="mb-4 font-semibold text-ink-900">🤖 ผลวิเคราะห์ & ติดแท็ก (AI)</h2>
+            <h2 className="mb-4 flex items-center gap-2 font-semibold text-ink-900">
+              <span className="text-brand-500">
+                <Icon name="sparkles" size={18} />
+              </span>
+              ผลวิเคราะห์ &amp; ติดแท็ก (AI)
+            </h2>
             <TagPanel chatId={chatId} suggestion={sug} />
           </Card>
         </div>

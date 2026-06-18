@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { suggestTagsAction, reviewTagAction } from "@/app/(app)/actions";
-import { ConfidenceBadge, RiskBadge, Tag } from "@/components/ui";
+import { ConfidenceBadge, RiskBadge, Tag, Button, Icon } from "@/components/ui";
 import { TAG_CATALOG, RISK_FLAG_LABELS, type RiskFlag } from "@/lib/constants";
 
 export type SuggestionView = {
@@ -45,13 +45,10 @@ export function TagPanel({
     return (
       <div className="space-y-4">
         <p className="text-sm text-ink-500">ยังไม่มีการเสนอแท็กสำหรับบทสนทนานี้</p>
-        <button
-          onClick={run}
-          disabled={pending}
-          className="w-full rounded-lg bg-brand-500 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-60"
-        >
-          {pending ? "กำลังวิเคราะห์..." : "🤖 ให้ AI เสนอแท็ก"}
-        </button>
+        <Button onClick={run} loading={pending} fullWidth>
+          {!pending && <Icon name="sparkles" size={16} />}
+          {pending ? "กำลังวิเคราะห์..." : "ให้ AI เสนอแท็ก"}
+        </Button>
       </div>
     );
   }
@@ -70,9 +67,14 @@ export function TagPanel({
       </div>
 
       {refused && (
-        <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          ⚠ ความมั่นใจต่ำกว่าเกณฑ์ — ระบบ <b>ปฏิเสธอัตโนมัติ (refusal)</b> และส่งเข้าคิวรีวิว
-          ต้องให้คนยืนยัน (WS2/WS4)
+        <div className="flex gap-2.5 rounded-xl bg-red-50 px-3 py-2.5 text-sm text-red-700 ring-1 ring-red-100">
+          <span className="mt-0.5 shrink-0">
+            <Icon name="alert" size={16} />
+          </span>
+          <span>
+            ความมั่นใจต่ำกว่าเกณฑ์ — ระบบ <b>ปฏิเสธอัตโนมัติ (refusal)</b> และส่งเข้าคิวรีวิว
+            ต้องให้คนยืนยัน (WS2/WS4)
+          </span>
         </div>
       )}
 
@@ -117,12 +119,20 @@ export function TagPanel({
         <div className="mb-1 text-xs font-semibold uppercase text-ink-500">
           evidence_list (อ้างอิง Rulebook)
         </div>
-        <ul className="space-y-1">
+        <ul className="space-y-1.5">
           {suggestion.evidence_list.map((e, i) => (
-            <li key={i} className="rounded-md bg-ink-100 px-2.5 py-1.5 text-xs text-ink-700">
-              📄 <b>{e.source}</b>
-              {e.section && ` · ${e.section}`}
-              {e.version && ` · v${e.version}`}
+            <li
+              key={i}
+              className="flex items-start gap-2 rounded-lg bg-ink-100 px-2.5 py-2 text-xs text-ink-700"
+            >
+              <span className="mt-0.5 shrink-0 text-ink-400">
+                <Icon name="file" size={13} />
+              </span>
+              <span>
+                <b className="text-ink-900">{e.source}</b>
+                {e.section && ` · ${e.section}`}
+                {e.version && ` · v${e.version}`}
+              </span>
             </li>
           ))}
         </ul>
@@ -138,36 +148,38 @@ export function TagPanel({
       )}
 
       {decided ? (
-        <div className="rounded-lg bg-ink-100 px-3 py-2 text-sm text-ink-700">
-          {suggestion.status === "approved" ? "✅ ยืนยันแล้ว" : "🚫 ปฏิเสธแล้ว"} โดย{" "}
-          {suggestion.reviewedBy}
+        <div
+          className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm ring-1 ${
+            suggestion.status === "approved"
+              ? "bg-emerald-50 text-emerald-700 ring-emerald-100"
+              : "bg-ink-100 text-ink-700 ring-ink-200"
+          }`}
+        >
+          <Icon name={suggestion.status === "approved" ? "check" : "x"} size={16} />
+          {suggestion.status === "approved" ? "ยืนยันแล้ว" : "ปฏิเสธแล้ว"} โดย {suggestion.reviewedBy}
         </div>
       ) : (
         <div className="flex gap-2 pt-1">
-          <button
+          <Button
+            variant="success"
+            fullWidth
             onClick={() => review("approve")}
-            disabled={pending || selected.length === 0}
-            className="flex-1 rounded-lg bg-emerald-600 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
+            disabled={selected.length === 0}
+            loading={pending}
           >
-            ✅ ยืนยันแท็ก
-          </button>
-          <button
-            onClick={() => review("reject")}
-            disabled={pending}
-            className="rounded-lg bg-surface px-4 py-2.5 text-sm font-semibold text-ink-700 ring-1 ring-ink-300 transition hover:bg-ink-100 disabled:opacity-50"
-          >
+            <Icon name="check" size={16} />
+            ยืนยันแท็ก
+          </Button>
+          <Button variant="outline" onClick={() => review("reject")} disabled={pending}>
             ปฏิเสธ
-          </button>
+          </Button>
         </div>
       )}
 
-      <button
-        onClick={run}
-        disabled={pending}
-        className="w-full rounded-lg py-2 text-xs font-medium text-brand-600 transition hover:bg-brand-50 disabled:opacity-50"
-      >
-        🔄 วิเคราะห์ใหม่
-      </button>
+      <Button variant="ghost" size="sm" fullWidth onClick={run} loading={pending} className="text-brand-600 hover:bg-brand-50">
+        {!pending && <Icon name="refresh" size={14} />}
+        วิเคราะห์ใหม่
+      </Button>
     </div>
   );
 }

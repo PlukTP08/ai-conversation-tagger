@@ -17,14 +17,16 @@ export default async function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <PageTitle en="System Configuration (AI & Retrieval Settings)" />
+    <div className="space-y-8">
+      <div className="space-y-1.5">
+        <PageTitle en="Settings" />
         <p className="text-sm text-ink-500">จัดการและตั้งค่าเกณฑ์การวิเคราะห์ของระบบ AI</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid items-start gap-6 lg:grid-cols-2">
         <Card>
+          <h2 className="mb-1 text-base font-semibold text-ink-900">เกณฑ์การวิเคราะห์ &amp; Fail-safe</h2>
+          <p className="mb-5 text-xs text-ink-500">ปรับเกณฑ์ความมั่นใจและการสุ่มตรวจของระบบ</p>
           <SettingsForm initial={settings} />
         </Card>
 
