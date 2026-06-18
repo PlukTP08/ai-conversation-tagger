@@ -22,16 +22,17 @@ export default function LoginPage() {
           action={action}
           className="flex w-full max-w-[420px] flex-col gap-5 rounded-3xl bg-surface p-10 shadow-lg"
         >
-          <div className="flex items-center gap-3">
-            <Image src="/brand/logo-tag-line.svg" alt="" width={48} height={48} />
-            <span className="font-num text-[22px] text-ink-700">
-              <span className="font-normal">smile</span>
-              <span className="font-bold">TAGGING</span>
-            </span>
-          </div>
+          <Image
+            src="/brand/logo-tag-line.png"
+            alt="vibeTAGGING"
+            width={1254}
+            height={1254}
+            priority
+            className="mx-auto h-auto w-40"
+          />
 
           <div>
-            <h1 className="page-title mb-1.5 text-[36px] leading-none">เข้าสู่ระบบ</h1>
+            <h1 className="page-title mb-5 text-[36px] leading-none">เข้าสู่ระบบ</h1>
             <p className="text-sm text-ink-500">
               ระบบติดแท็กแชต LINE OA · สำหรับแอดมินและทีมงาน
             </p>

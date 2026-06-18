@@ -91,17 +91,31 @@ export function Stat({
   label,
   value,
   hint,
+  accent,
 }: {
-  label: string;
+  label: ReactNode;
   value: ReactNode;
   hint?: string;
+  accent?: string;
 }) {
   return (
     <Card>
       <div className="text-sm text-ink-500">{label}</div>
-      <div className="stat-num mt-2 text-[40px]">{value}</div>
+      <div className="mt-2 flex items-baseline gap-2">
+        <div className="stat-num text-[40px]">{value}</div>
+        {accent && <span className="text-lg font-semibold text-emerald-600">{accent}</span>}
+      </div>
       {hint && <div className="mt-1 text-xs text-ink-500">{hint}</div>}
     </Card>
+  );
+}
+
+/** หัวข้อหน้าแบบสองภาษา — ไทยตัวหนา + อังกฤษ (ตรงกับชื่อเมนู) */
+export function PageTitle({  en }: { en: string }) {
+  return (
+    <h1 className="page-title text-[30px]">
+      {en}
+    </h1>
   );
 }
 

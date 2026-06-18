@@ -1,6 +1,6 @@
 import { dbConnect } from "@/lib/db";
 import { AuditLog } from "@/lib/models/AuditLog";
-import { Card, StatusBadge, EmptyState } from "@/components/ui";
+import { Card, StatusBadge, EmptyState, PageTitle } from "@/components/ui";
 import { plain } from "@/lib/serialize";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ export default async function AuditPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="page-title text-[30px]">Audit Log</h1>
+        <PageTitle en="Audit Logs" />
         <p className="text-sm text-ink-500">
           ประวัติการติดแท็ก/รีวิวทั้งหมด (WS4 Review Approval Dashboard Log)
         </p>
