@@ -107,24 +107,24 @@ export function Sidebar({
   const sections = [...new Set(NAV.map((n) => n.section))];
 
   return (
-    <aside className="sticky top-4 m-4 flex h-[calc(100vh-2rem)] w-60 shrink-0 flex-col gap-1 self-start rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-black/[0.06]">
+    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col gap-1 self-start border-r border-ink-200 bg-surface px-3 pb-4 pt-5">
       {/* brand */}
-      <div className="mb-2 flex items-center justify-center border-b border-ink-100 px-1.5 pb-3 pt-1">
+      <div className="mb-3 flex items-center justify-center border-b border-ink-200 px-1.5 pb-4">
         <Image
           src="/brand/logo-tag-line.png"
           alt="vibeTAGGING"
           width={1254}
           height={1254}
           priority
-          className="h-auto w-44"
+          className="h-auto w-40"
         />
       </div>
 
       {/* nav */}
       <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto">
         {sections.map((section) => (
-          <div key={section} className="flex flex-col gap-0.5">
-            <div className="px-3 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-wider text-ink-500">
+          <div key={section} className="flex flex-col gap-0.5 pb-1">
+            <div className="px-3 pb-1.5 pt-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-400">
               {section}
             </div>
             {NAV.filter((n) => n.section === section).map((item) => {
@@ -134,14 +134,20 @@ export function Sidebar({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition ${
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative flex items-center justify-between rounded-sm px-3 py-2 text-sm transition duration-150 ${
                     active
-                      ? "bg-brand-100 font-semibold text-brand-600"
-                      : "font-medium text-ink-700 hover:bg-canvas"
+                      ? "bg-brand-50 font-semibold text-brand-700"
+                      : "font-medium text-ink-700 hover:bg-ink-100 hover:text-ink-900"
                   }`}
                 >
+                  {active && (
+                    <span className="absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-brand-500" />
+                  )}
                   <span className="flex items-center gap-2.5">
-                    <Icon name={item.icon} />
+                    <span className={active ? "text-brand-600" : "text-ink-400 group-hover:text-ink-500"}>
+                      <Icon name={item.icon} />
+                    </span>
                     {item.label}
                   </span>
                   {item.href === "/review" && pendingCount > 0 && (
@@ -157,22 +163,23 @@ export function Sidebar({
       </nav>
 
       {/* profile chip */}
-      <div className="flex items-center gap-2.5 rounded-xl border border-ink-100 bg-canvas p-2.5">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-500 font-num text-sm font-semibold text-white">
+      <div className="mt-1 flex items-center gap-2.5 rounded-xl border border-ink-200 bg-canvas p-2.5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-500 text-sm font-semibold text-white">
           {(user?.name ?? "A").charAt(0)}
         </div>
         <div className="flex min-w-0 flex-1 flex-col leading-tight">
-          <b className="truncate text-[13px] font-semibold text-ink-700">
+          <b className="truncate text-[13px] font-semibold text-ink-900">
             {user?.name ?? "Admin"}
           </b>
-          <small className="text-[11px] text-ink-500">
+          <small className="truncate text-[11px] text-ink-500">
             {user ? ROLE_LABELS[user.role] : "Admin"}
           </small>
         </div>
         <a
           href="/logout"
           title="ออกจากระบบ"
-          className="flex p-1 text-ink-500 hover:text-ink-900"
+          aria-label="ออกจากระบบ"
+          className="flex rounded-lg p-1.5 text-ink-400 transition hover:bg-ink-100 hover:text-ink-900"
         >
           <Icon name="logout" size={16} />
         </a>
