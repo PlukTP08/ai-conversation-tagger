@@ -1,6 +1,6 @@
 import { getSettings } from "@/lib/models/Settings";
 import { dbConnect } from "@/lib/db";
-import { Card } from "@/components/ui";
+import { Card, PageTitle } from "@/components/ui";
 import { SettingsForm } from "./SettingsForm";
 import { hasGemini, hasLineSecret } from "@/lib/env";
 import { plain } from "@/lib/serialize";
@@ -19,13 +19,12 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="page-title text-[30px]">ตั้งค่าระบบ</h1>
+        <PageTitle en="System Configuration (AI & Retrieval Settings)" />
         <p className="text-sm text-ink-500">จัดการและตั้งค่าเกณฑ์การวิเคราะห์ของระบบ AI</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-4 font-semibold text-ink-900">เกณฑ์การวิเคราะห์ & Fail-safe</h2>
           <SettingsForm initial={settings} />
         </Card>
 
@@ -53,7 +52,7 @@ export default async function SettingsPage() {
           </Card>
 
           <Card>
-            <h2 className="mb-1 font-semibold text-ink-900">Metadata Dictionary</h2>
+            <h2 className="mb-1 font-semibold text-ink-900">Metadata Dictionary (Rulebook Properties)</h2>
             <p className="mb-3 text-xs text-ink-500">คุณสมบัติ (properties) ของ Rulebook ที่ระบบบังคับจัดเก็บ</p>
             <div className="flex flex-wrap gap-1.5">
               {settings.metadataFields.map((f) => (

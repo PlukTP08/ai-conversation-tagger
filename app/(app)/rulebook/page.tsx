@@ -1,6 +1,6 @@
 import { dbConnect } from "@/lib/db";
 import { RulebookChunk } from "@/lib/models/RulebookChunk";
-import { Card, EmptyState } from "@/components/ui";
+import { Card, EmptyState, PageTitle } from "@/components/ui";
 import { IngestForm } from "./IngestForm";
 import { plain } from "@/lib/serialize";
 
@@ -33,7 +33,7 @@ export default async function RulebookPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="page-title text-[30px]">Rulebook & Knowledge Base</h1>
+        <PageTitle th="คู่มือการติดแท็ก" en="Tagging Rulebook" />
         <p className="text-sm text-ink-500">
           เอกสารอ้างอิงสำหรับ RAG · เวอร์ชันเก่าถูก mark superseded → retrieve ดึงเฉพาะเล่มล่าสุด (WS2)
         </p>

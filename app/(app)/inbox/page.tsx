@@ -2,7 +2,7 @@ import Link from "next/link";
 import { dbConnect } from "@/lib/db";
 import { Conversation } from "@/lib/models/Conversation";
 import { TagSuggestion } from "@/lib/models/TagSuggestion";
-import { Card, StatusBadge, Tag, EmptyState } from "@/components/ui";
+import { Card, StatusBadge, Tag, EmptyState, PageTitle } from "@/components/ui";
 import { plain } from "@/lib/serialize";
 
 export const dynamic = "force-dynamic";
@@ -46,8 +46,8 @@ export default async function InboxPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="page-title text-[30px]">กล่องแชต</h1>
-        <p className="text-sm text-ink-500">บทสนทนาจาก LINE OA (ข้อมูล mock · PII ถูก mask แล้ว)</p>
+        <PageTitle th="แชตสด" en="Live Chat" />
+        <p className="text-sm text-ink-500">บทสนทนาจาก LINE OA</p>
       </div>
 
       {convos.length === 0 ? (

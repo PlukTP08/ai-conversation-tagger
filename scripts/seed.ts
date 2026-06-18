@@ -18,7 +18,7 @@ const HOUR = 3600_000;
 const now = Date.now();
 
 const users = [
-  { email: "admin@smilefokus.com", name: "Admin ใหญ่", role: "admin" },
+  { email: "admin@smilefokus.com", name: "Admin", role: "admin" },
   { email: "supervisor@smilefokus.com", name: "หัวหน้า สมหญิง", role: "supervisor" },
   { email: "sales@smilefokus.com", name: "Sales สมชาย", role: "sales_tier1" },
   { email: "ai@smilefokus.com", name: "AI Engineer", role: "ai_engineer" },

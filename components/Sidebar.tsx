@@ -68,12 +68,32 @@ function Icon({ name, size = 18 }: { name: string; size?: number }) {
 }
 
 const NAV = [
-  { href: "/dashboard", label: "Dashboard", icon: "dashboard", section: "MAIN" },
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+    icon: "dashboard",
+    section: "MAIN",
+  },
   { href: "/inbox", label: "Live Chat", icon: "inbox", section: "MAIN" },
   { href: "/review", label: "Review Queue", icon: "review", section: "MAIN" },
-  { href: "/rulebook", label: "Tagging Rulebook", icon: "rulebook", section: "KNOWLEDGE BASE" },
-  { href: "/audit", label: "Audit Logs", icon: "audit", section: "KNOWLEDGE BASE" },
-  { href: "/settings", label: "AI & Retrieval Settings", icon: "settings", section: "SYSTEM CONFIG" },
+  {
+    href: "/rulebook",
+    label: "Tagging Rulebook",
+    icon: "rulebook",
+    section: "KNOWLEDGE BASE",
+  },
+  {
+    href: "/audit",
+    label: "Audit Logs",
+    icon: "audit",
+    section: "KNOWLEDGE BASE",
+  },
+  {
+    href: "/settings",
+    label: "AI & Retrieval Settings",
+    icon: "settings",
+    section: "SYSTEM CONFIG",
+  },
 ];
 
 export function Sidebar({
@@ -89,12 +109,15 @@ export function Sidebar({
   return (
     <aside className="sticky top-4 m-4 flex h-[calc(100vh-2rem)] w-60 shrink-0 flex-col gap-1 self-start rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-black/[0.06]">
       {/* brand */}
-      <div className="mb-2 flex items-center gap-2.5 border-b border-ink-100 px-1.5 pb-4">
-        <Image src="/brand/logo-tag-line.svg" alt="" width={32} height={32} />
-        <span className="font-num text-[17px] tracking-tight text-ink-700">
-          <span className="font-normal">smile</span>
-          <span className="font-bold">TAGGING</span>
-        </span>
+      <div className="mb-2 flex items-center justify-center border-b border-ink-100 px-1.5 pb-3 pt-1">
+        <Image
+          src="/brand/logo-tag-line.png"
+          alt="vibeTAGGING"
+          width={1254}
+          height={1254}
+          priority
+          className="h-auto w-44"
+        />
       </div>
 
       {/* nav */}
@@ -105,7 +128,8 @@ export function Sidebar({
               {section}
             </div>
             {NAV.filter((n) => n.section === section).map((item) => {
-              const active = pathname === item.href || pathname.startsWith(item.href + "/");
+              const active =
+                pathname === item.href || pathname.startsWith(item.href + "/");
               return (
                 <Link
                   key={item.href}
@@ -138,12 +162,18 @@ export function Sidebar({
           {(user?.name ?? "A").charAt(0)}
         </div>
         <div className="flex min-w-0 flex-1 flex-col leading-tight">
-          <b className="truncate text-[13px] font-semibold text-ink-700">{user?.name ?? "Admin"}</b>
+          <b className="truncate text-[13px] font-semibold text-ink-700">
+            {user?.name ?? "Admin"}
+          </b>
           <small className="text-[11px] text-ink-500">
             {user ? ROLE_LABELS[user.role] : "Admin"}
           </small>
         </div>
-        <a href="/logout" title="ออกจากระบบ" className="flex p-1 text-ink-500 hover:text-ink-900">
+        <a
+          href="/logout"
+          title="ออกจากระบบ"
+          className="flex p-1 text-ink-500 hover:text-ink-900"
+        >
           <Icon name="logout" size={16} />
         </a>
       </div>

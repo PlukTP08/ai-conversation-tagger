@@ -3,7 +3,7 @@ import { TagSuggestion } from "@/lib/models/TagSuggestion";
 import { Conversation } from "@/lib/models/Conversation";
 import { getSettings } from "@/lib/models/Settings";
 import { ReviewItem, type ReviewRow } from "@/components/ReviewItem";
-import { EmptyState } from "@/components/ui";
+import { EmptyState, PageTitle } from "@/components/ui";
 import { plain } from "@/lib/serialize";
 
 export const dynamic = "force-dynamic";
@@ -36,7 +36,7 @@ export default async function ReviewPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="page-title text-[30px]">คิวรีวิว (Human-in-the-loop)</h1>
+        <PageTitle th="คิวรีวิว" en="Review Queue" />
         <p className="text-sm text-ink-500">
           เคสที่ confidence &lt; {settings.confidenceThreshold} (refused) หรือถูกสุ่มตรวจ{" "}
           {(settings.reviewSampleRate * 100).toFixed(0)}% — ต้องให้คนยืนยัน
