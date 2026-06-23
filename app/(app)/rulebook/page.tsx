@@ -18,8 +18,11 @@ type Chunk = {
 
 export default async function RulebookPage() {
   await dbConnect();
+  // ไม่ดึง embedding (อาเรย์ float ขนาดใหญ่ที่ UI ไม่ได้ใช้) → ลด payload จาก Atlas มหาศาล
   const chunks = plain(
-    await RulebookChunk.find({}).sort({ source: 1, version: -1, section: 1 }).lean()
+    await RulebookChunk.find({}, { embedding: 0 })
+      .sort({ source: 1, version: -1, section: 1 })
+      .lean()
   ) as Chunk[];
 
   // group by source+version

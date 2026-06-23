@@ -19,6 +19,7 @@ type Convo = {
 export default async function InboxPage() {
   await dbConnect();
   // query ขนานกัน + ดึงเฉพาะข้อความล่าสุด ($slice -1) และฟิลด์ที่ใช้ → ลด payload/latency
+  // suggestions: ยุบเหลือ "อันล่าสุดต่อแชต" ที่ DB (1 doc/แชต) แทนการลากทั้ง collection มา dedupe ที่ app
   const [convosRaw, sugs] = await Promise.all([
     Conversation.find(
       {},
@@ -27,20 +28,26 @@ export default async function InboxPage() {
       .sort({ lastMessageAt: -1 })
       .limit(100)
       .lean(),
-    TagSuggestion.find({}, { chatId: 1, tags: 1, finalTags: 1, status: 1 })
-      .sort({ createdAt: -1 })
-      .lean(),
+    TagSuggestion.aggregate([
+      { $sort: { createdAt: -1 } },
+      {
+        $group: {
+          _id: "$chatId",
+          tags: { $first: "$tags" },
+          finalTags: { $first: "$finalTags" },
+          status: { $first: "$status" },
+        },
+      },
+    ]),
   ]);
   const convos = plain(convosRaw) as Convo[];
 
   const latestByChat = new Map<string, { tags: string[]; status: string }>();
-  for (const s of sugs as unknown as { chatId: string; tags: string[]; finalTags: string[]; status: string }[]) {
-    if (!latestByChat.has(s.chatId)) {
-      latestByChat.set(s.chatId, {
-        tags: s.status === "approved" ? s.finalTags : s.tags,
-        status: s.status,
-      });
-    }
+  for (const s of sugs as unknown as { _id: string; tags: string[]; finalTags: string[]; status: string }[]) {
+    latestByChat.set(s._id, {
+      tags: s.status === "approved" ? s.finalTags : s.tags,
+      status: s.status,
+    });
   }
 
   return (
