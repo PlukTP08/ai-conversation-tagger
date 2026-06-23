@@ -19,7 +19,14 @@ export async function dbConnect(): Promise<typeof mongoose> {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(env.mongoUri, { bufferCommands: false })
+      .connect(env.mongoUri, {
+        bufferCommands: false,
+        // serverless: เลือก server เร็วขึ้น, จำกัด pool, ไม่ build index ซ้ำทุก cold start
+        serverSelectionTimeoutMS: 8000,
+        maxPoolSize: 10,
+        minPoolSize: 0,
+        autoIndex: process.env.NODE_ENV !== "production",
+      })
       .then((m) => m);
   }
 

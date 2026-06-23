@@ -21,8 +21,12 @@ export default async function ReviewPage() {
       .lean()
   ) as (Omit<ReviewRow, "displayName" | "reason"> & { sampledForReview: boolean })[];
 
+  // ดึงเฉพาะแชตที่อยู่ในคิวรีวิว แทนการโหลด Conversation ทั้ง collection
+  const chatIds = [...new Set(sugs.map((s) => s.chatId))];
   const convoMap = new Map<string, string>();
-  const convos = await Conversation.find({}).select("chatId displayName").lean();
+  const convos = chatIds.length
+    ? await Conversation.find({ chatId: { $in: chatIds } }).select("chatId displayName").lean()
+    : [];
   for (const c of convos as unknown as { chatId: string; displayName: string }[]) {
     convoMap.set(c.chatId, c.displayName);
   }
